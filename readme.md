@@ -7,8 +7,22 @@
 
 # **Open E-commerce CMS API**
 
-![alt text](./public/img/logo.webp 'Link para o treinamento')
+![alt text](./public/img/logo.webp)
+
+## Description
+
+The focus of this API is provide a scalable, legible and solid single-vendor or multi-vendor service for e-commerce clients. With REST protocols, following the clean architecture, Design Patterns, SOLID, DDD and TDD principles.
 
 > ## Services
 
-1. [Users](./docs/users/index.md)
+1. [Customers](./docs/users/index.md)
+
+> ## Tecnologies
+
+- Typescript
+- Jest
+- JWT
+- Express
+- UUID
+- Eslint
+- Postgres
