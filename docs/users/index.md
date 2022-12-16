@@ -1,6 +1,6 @@
 > ## Database Model
 
-![alt text](../../public/img/db/shop-users.png 'Link para o treinamento')
+![alt text](../../public/img/db/shop-users.png)
 
 > ## Use Cases
 

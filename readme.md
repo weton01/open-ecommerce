@@ -5,13 +5,13 @@
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 [![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
 
-# **Open E-commerce CMS API**
+# **Open Gym API**
 
 ![alt text](./public/img/logo.webp)
 
 ## Description
 
-The focus of this API is provide a scalable, legible and solid single-vendor or multi-vendor service for e-commerce clients. With REST protocols, following the clean architecture, Design Patterns, SOLID, DDD and TDD principles.
+The focus of this API is provide a scalable, legible and solid Gym Service. With REST protocols, following the clean architecture, Design Patterns, SOLID, DDD and TDD principles.
 
 > ## Services
 
