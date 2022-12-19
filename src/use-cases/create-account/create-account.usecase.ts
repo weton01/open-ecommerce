@@ -1,6 +1,6 @@
-import { Hasher, Notifier } from '../common/contracts/packages'
+import { Hasher, Notifier } from '@/use-cases/common/contracts/packages'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
-import { AccountDTO, CreateAccountDTO } from './create-account.dtos'
+import { AccountDTO, CreateAccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { Account, AccountError } from '@/entities/account'
 
 export class CreateAccount {
