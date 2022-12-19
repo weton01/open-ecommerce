@@ -1,6 +1,6 @@
 import { Account, AccountError } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Notifier, Hasher } from '@/use-cases/common/contracts/packages'
+import { Notifier, Hasher, Configuration } from '@/use-cases/common/contracts/packages'
 import { CreateAccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { CreateAccount } from '@/use-cases/create-account/create-account.usecase'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
@@ -9,6 +9,8 @@ describe('CreateAccount', () => {
   let sut: CreateAccount
   let accountRepo: MockProxy<SaveAccountRepository & FindByEmailAccountRepository>
   let hasher: MockProxy<Hasher>
+  let configuration: MockProxy<Configuration>
+
   let notifier: MockProxy<Notifier>
   const accountProps: CreateAccountDTO = {
     name: 'any_name',
@@ -27,10 +29,11 @@ describe('CreateAccount', () => {
     })
     hasher = mock()
     notifier = mock()
+    configuration = mock()
   })
 
   beforeEach(() => {
-    sut = new CreateAccount(accountRepo, accountRepo, notifier, hasher)
+    sut = new CreateAccount(accountRepo, accountRepo, configuration, notifier, hasher)
   })
 
   it('should call FindByEmailRepo with correct values', async () => {
@@ -67,12 +70,15 @@ describe('CreateAccount', () => {
 
   it('should call Notifier with correct values', async () => {
     hasher.hash.mockResolvedValue('any_hash')
+    configuration.defaultProfileImage = 'any_value'
+
     await sut.execute(accountProps)
 
     const account = new Account({
       email: 'any_email@mail.com',
       name: 'any_name',
-      password: 'any_hash'
+      password: 'any_hash',
+      image: 'any_value'
     })
 
     expect(notifier.notify).toHaveBeenCalledWith(account)

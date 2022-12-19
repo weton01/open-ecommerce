@@ -1,8 +1,8 @@
 import { DomainError } from './domain-error'
 
 export class EntityError extends DomainError {
-  constructor (entity: string, errors: string[] | string) {
-    super(`Failed while manipulating ${entity} entity`, errors)
+  constructor (entity: string, errors: string[] | string, statusCode?: number) {
+    super(`Failed while manipulating ${entity} entity`, errors, statusCode)
   }
 }
 
