@@ -11,19 +11,19 @@ the access_token and client url to refactor the password
 
 > ## Primary Flow
 
-1. ❌ Create a new JWToken
-2. ❌ Send the token and client_url to dynamic notifications
-3. ❌ Returns ok
+1. ✅ Create a new JWToken
+2. ✅ Send the token and client_url to dynamic notifications
+3. ✅ Returns ok
 
 > ## Altenative flow 1.1: E-mail not found
 
-1. ❌ Validate if e-mail not found in database
-2. ❌ Returns not found status code
+1. ✅ Validate if e-mail not found in database
+2. ✅ Returns not found status code
 
 > ## Altenative flow 1.2: Error on notification service
 
-1. ❌ Throw Internal Server Error
+1. ✅ Throw Internal Server Error
 
 > ## Altenative flow 1.3: Error on Jwt Adapter
 
-1. ❌ Throw Internal Server Error
+1. ✅ Throw Internal Server Error

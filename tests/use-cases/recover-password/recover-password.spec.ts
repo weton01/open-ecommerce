@@ -6,7 +6,7 @@ import { Account, AccountError } from '@/entities/account'
 import { RecoverPassword } from '@/use-cases/recover-password/recover-password.usecase'
 import { RecoverPasswordDTO } from '@/use-cases/recover-password/recover-password.dtos'
 
-describe('CreateAccount', () => {
+describe('RecoverPassword', () => {
   let sut: RecoverPassword
   let accountRepo: MockProxy<FindByEmailAccountRepository >
   let encrypter: MockProxy<Encrypter>

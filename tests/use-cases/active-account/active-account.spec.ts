@@ -6,7 +6,7 @@ import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases
 import { ActiveAccount } from '@/use-cases/active-account/active-account.usecase'
 import { ActiveAccountDTO } from '@/use-cases/active-account/active-account.dtos'
 
-describe('CreateAccount', () => {
+describe('ActiveAccount', () => {
   let sut: ActiveAccount
   let accountRepo: MockProxy<SaveAccountRepository & FindByEmailAccountRepository >
   let encrypter: MockProxy<Encrypter>

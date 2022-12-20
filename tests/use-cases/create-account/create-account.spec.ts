@@ -64,12 +64,6 @@ describe('CreateAccount', () => {
     await expect(promise).rejects.toThrow(new AccountError([]))
   })
 
-  it('should call FindByEmailRepo with correct values', async () => {
-    await sut.execute(accountProps)
-    expect(hasher.hash).toHaveBeenCalledWith(accountProps.password)
-    expect(hasher.hash).toHaveBeenCalledTimes(1)
-  })
-
   it('should call Hasher with correct values', async () => {
     await sut.execute(accountProps)
     expect(hasher.hash).toHaveBeenCalledWith(accountProps.password)
