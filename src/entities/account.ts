@@ -4,8 +4,9 @@ export interface AccountProps {
   id?: string
   name: string
   email: string
-  password: string
+  password?: string
   image: string
+  active: boolean
 }
 
 export class AccountError extends EntityError {
@@ -29,11 +30,16 @@ export class Account extends Entity<AccountProps> {
   }
 
   get password (): string {
-    return this.props.password
+    if (this.props.password !== null && this.props.password !== undefined) { return this.props.password }
+    return ''
   }
 
   get image (): string {
     return this.props.image
+  }
+
+  get active (): boolean {
+    return this.props.active
   }
 
   static build (props: AccountProps): Account {
@@ -41,6 +47,6 @@ export class Account extends Entity<AccountProps> {
     props.email = props.email.toLowerCase()
     if (!/^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(props.email)) { errors.push('Invalid e-mail') }
     if (errors.length > 0) { throw new AccountError(errors) }
-    return new Account(props)
+    return new Account({ id: props.id, name: props.name, email: props.email, password: props.password, image: props.image, active: props.active })
   }
 }

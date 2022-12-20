@@ -16,6 +16,7 @@ describe('CreateAccount', () => {
     name: 'any_name',
     email: 'any_email@mail.com',
     password: 'any_password'
+
   }
 
   beforeAll(() => {
@@ -25,11 +26,15 @@ describe('CreateAccount', () => {
       email: 'any_email@mail.com',
       name: 'any_name',
       createdAt: 'any_date',
-      updatedAt: 'any_date'
+      updatedAt: 'any_date',
+      activationCode: '00000',
+      active: false,
+      image: ''
     })
     hasher = mock()
     notifier = mock()
     configuration = mock()
+    configuration.defaultProfileImage = 'any_value'
   })
 
   beforeEach(() => {
@@ -48,7 +53,10 @@ describe('CreateAccount', () => {
       name: 'any_name',
       email: 'any_email@mail.com',
       createdAt: 'any_date',
-      updatedAt: 'any_date'
+      updatedAt: 'any_date',
+      activationCode: '00000',
+      active: false,
+      image: ''
     })
 
     const promise = sut.execute(accountProps)
@@ -70,7 +78,6 @@ describe('CreateAccount', () => {
 
   it('should call Notifier with correct values', async () => {
     hasher.hash.mockResolvedValue('any_hash')
-    configuration.defaultProfileImage = 'any_value'
 
     await sut.execute(accountProps)
 
@@ -78,7 +85,8 @@ describe('CreateAccount', () => {
       email: 'any_email@mail.com',
       name: 'any_name',
       password: 'any_hash',
-      image: 'any_value'
+      image: 'any_value',
+      active: false
     })
 
     expect(notifier.notify).toHaveBeenCalledWith(account)
@@ -91,5 +99,22 @@ describe('CreateAccount', () => {
     const promise = sut.execute(accountProps)
 
     await expect(promise).rejects.toThrow(new Error('save_error'))
+  })
+
+  it('should call SaveAccountRepository with correct values', async () => {
+    hasher.hash.mockResolvedValue('any_hash')
+
+    await sut.execute(accountProps)
+
+    const account = new Account({
+      email: 'any_email@mail.com',
+      name: 'any_name',
+      password: 'any_hash',
+      image: 'any_value',
+      active: false
+    })
+
+    expect(accountRepo.save).toHaveBeenCalledWith(account)
+    expect(accountRepo.save).toHaveBeenCalledTimes(1)
   })
 })

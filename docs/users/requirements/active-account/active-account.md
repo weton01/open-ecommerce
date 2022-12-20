@@ -17,7 +17,9 @@ Ensure that the use case can active the user by ID if the activationCode is true
 1. ❌ Change user active to true
 2. ❌ Create access_token and refresh_token
 3. ❌ Remove password from user
-4. ❌ Return the body and ok status code
+4. ❌ Validate if user already active
+5. ❌ Call NotificationService to send welcome e-mail
+6. ❌ Return the body and ok status code
 
 > ## Altenative flow 1.1: User not found
 

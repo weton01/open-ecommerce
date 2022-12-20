@@ -17,9 +17,9 @@ export class CreateAccount {
     const exists = await this.findByEmailRepo.findByEmail(dto.email)
     if (exists !== undefined) { throw new AccountError(['E-mail already exists'], 400) }
     const password = await this.hasher.hash(dto.password)
-    const account = Account.build({ ...dto, password, image })
-    const dbCustomer = await this.saveAccount.save(account)
+    const account = Account.build({ ...dto, password, image, active: false })
+    const response = await this.saveAccount.save(account)
     await this.notifier.notify(account)
-    return dbCustomer
+    return response
   }
 }

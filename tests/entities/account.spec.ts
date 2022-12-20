@@ -7,7 +7,8 @@ describe('Account', () => {
       name: 'any_name',
       email: 'valid_mail@mail.com',
       password: 'any_password',
-      image: ''
+      image: '',
+      active: false
     }
     const account = Account.build(accountProps)
 
@@ -16,6 +17,7 @@ describe('Account', () => {
     expect(account.email).toBe(accountProps.email)
     expect(account.password).toBe(accountProps.password)
     expect(account.image).toBe(accountProps.image)
+    expect(account.active).toBe(accountProps.active)
   })
 
   it('should fail when give an invalida e-mail', () => {
@@ -24,7 +26,8 @@ describe('Account', () => {
       name: 'any_name',
       email: 'invalid_mail@mail..com',
       password: 'any_password',
-      image: ''
+      image: '',
+      active: false
     }
 
     expect(() => { Account.build(accountProps) }).toThrow(new AccountError(['Invalid e-mail']))
@@ -39,5 +42,16 @@ describe('Account', () => {
     const account = Account.build(accountProps)
 
     expect(account.id).toBe('')
+  })
+
+  it('should id return empty string if provided password is null', () => {
+    const accountProps: any = {
+      id: 'asdsa',
+      name: 'any_name',
+      email: 'valid_mail@mail.com'
+    }
+    const account = Account.build(accountProps)
+
+    expect(account.password).toBe('')
   })
 })
