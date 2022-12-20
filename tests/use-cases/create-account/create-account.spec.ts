@@ -89,7 +89,7 @@ describe('CreateAccount', () => {
       active: false
     })
 
-    expect(notifier.notify).toHaveBeenCalledWith(account)
+    expect(notifier.notify).toHaveBeenCalledWith(account, {})
     expect(notifier.notify).toHaveBeenCalledTimes(1)
   })
 

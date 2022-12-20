@@ -20,7 +20,7 @@ export class ActiveAccount {
     const response = await this.accountRepository.save(account)
     const accessToken = this.encrypter.encrypt({ id: response.id }, this.config.accessTokenSecret)
     const refreshToken = this.encrypter.encrypt({ id: response.id }, this.config.refreshTokenSecret)
-    await this.notifier.notify(account)
+    await this.notifier.notify(account, {})
     return { account: response, accessToken, refreshToken }
   }
 }

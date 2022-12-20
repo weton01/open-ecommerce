@@ -19,7 +19,7 @@ export class CreateAccount {
     const password = await this.hasher.hash(dto.password)
     const account = Account.build({ ...dto, password, image, active: false })
     const response = await this.saveAccount.save(account)
-    await this.notifier.notify(account)
+    await this.notifier.notify(account, {})
     return response
   }
 }

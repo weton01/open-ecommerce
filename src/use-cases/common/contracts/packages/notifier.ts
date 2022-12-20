@@ -1,5 +1,5 @@
 import { Account } from '@/entities/account'
 
 export interface Notifier {
-  notify: (account: Account) => Promise<void>
+  notify: (account: Account, content: any) => Promise<void>
 }

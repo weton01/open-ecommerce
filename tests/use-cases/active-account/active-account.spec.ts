@@ -66,6 +66,13 @@ describe('CreateAccount', () => {
     await expect(promise).rejects.toThrow(new AccountError(['Invalid activationCode'], 400))
   })
 
+  it('should call Encrypter with correct values', async () => {
+    await sut.execute(accountPropsDTO)
+    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' }, configuration.accessTokenSecret)
+    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' }, configuration.refreshTokenSecret)
+    expect(encrypter.encrypt).toHaveBeenCalledTimes(2)
+  })
+
   it('should call SaveAccountRepo with correct values', async () => {
     await sut.execute(accountPropsDTO)
 
@@ -94,7 +101,15 @@ describe('CreateAccount', () => {
       active: false
     })
 
-    expect(notifier.notify).toHaveBeenCalledWith(account)
+    expect(notifier.notify).toHaveBeenCalledWith(account, {})
     expect(notifier.notify).toHaveBeenCalledTimes(1)
+  })
+
+  it('should rethrow if SaveAccount throws', async () => {
+    accountRepo.save.mockRejectedValueOnce(new Error('save_error'))
+
+    const promise = sut.execute(accountProps)
+
+    await expect(promise).rejects.toThrow(new Error('save_error'))
   })
 })
