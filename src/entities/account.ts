@@ -42,6 +42,12 @@ export class Account extends Entity<AccountProps> {
     return this.props.active
   }
 
+  changePassword (pswd?: string): void {
+    if (pswd !== null && pswd !== undefined && pswd !== '') {
+      this.props.password = pswd
+    }
+  }
+
   static build (props: AccountProps): Account {
     const errors: string[] = []
     props.email = props.email.toLowerCase()
