@@ -24,7 +24,6 @@ Ensure that the use case can update account settings
 1. ✅ Validate if userId not exists in database
 2. ✅ Returns not found status code
 
-
 > ## Altenative flow 1.2: password sended
 
 1. ✅ create a hash for password
