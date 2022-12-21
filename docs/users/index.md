@@ -11,3 +11,5 @@
 5. [Update Account](./requirements/update-account/update-account.md)
 6. [Delete Account](./requirements/delete-account/delete-account.md)
 7. [Upload Account Image](./requirements/update-account-image/update-account-image.md)
+7. [Auth Account](./requirements/auth-account/auth-account.md)
+7. [Auth Social](./requirements/auth-social/auth-social.md)
