@@ -1,14 +1,14 @@
 import { AccountError } from '@/entities/account'
 import { AccountAuthenticationDTO } from '@/use-cases/active-account/active-account.dtos'
-import { Comparator, Configuration, Encrypter } from '@/use-cases/common/contracts/packages'
+import { Comparator, Encrypter } from '@/use-cases/common/contracts/packages'
 import { FindByEmailAccountRepository } from '@/use-cases/common/contracts/repositories'
 import { AuthAccountDTO } from './auth-account.dtos'
 
 export class AuthAccount {
   constructor (
     private readonly accRepository: FindByEmailAccountRepository,
-    private readonly config: Configuration,
-    private readonly encrypter: Encrypter,
+    private readonly accessEncrypter: Encrypter,
+    private readonly refreshEncrypter: Encrypter,
     private readonly comparator: Comparator
   ) { }
 
@@ -18,8 +18,8 @@ export class AuthAccount {
     if (!exists.active) { throw new AccountError(['Account not is active'], 504) }
     const isValisPassword = await this.comparator.compare(dto.password, exists.password!)
     if (!isValisPassword) { throw new AccountError(['Invalid Credentials'], 400) }
-    const accessToken = this.encrypter.encrypt({ id: exists.id }, this.config.accessTokenSecret)
-    const refreshToken = this.encrypter.encrypt({ id: exists.id }, this.config.refreshTokenSecret)
+    const accessToken = this.accessEncrypter.encrypt({ id: exists.id })
+    const refreshToken = this.refreshEncrypter.encrypt({ id: exists.id })
     return { account: exists, accessToken, refreshToken }
   }
 }

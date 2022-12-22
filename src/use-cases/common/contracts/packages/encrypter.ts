@@ -1,3 +1,3 @@
 export interface Encrypter {
-  encrypt: (value: any, key: string) => string
+  encrypt: (value: any) => string
 }

@@ -12,10 +12,10 @@ the refresh_token, access_token and Account info
 
 > ## Primary Flow
 
-1. ❌ Verify if is google or facebook
-2. ❌ Create a User on database if not exists
-3. ❌ Create accessToken and refreshToken
+1. ✅ Verify if is google or facebook
+2. ✅ Create a User on database if not exists
+3. ✅ Create accessToken and refreshToken
 
 > ## Altenative flow 1.1: Invalid accessToken
 
-1. ❌ Throw AccountError
+1. ✅ Throw AccountError

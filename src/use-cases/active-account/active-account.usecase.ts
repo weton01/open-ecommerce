@@ -1,14 +1,14 @@
 import { Account, AccountError } from '@/entities/account'
-import { Configuration, Encrypter, Notifier } from '../common/contracts/packages'
+import { Encrypter, Notifier } from '../common/contracts/packages'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '../common/contracts/repositories'
 import { AccountAuthenticationDTO, ActiveAccountDTO } from './active-account.dtos'
 
 export class ActiveAccount {
   constructor (
     private readonly accountRepository: SaveAccountRepository & FindByEmailAccountRepository,
-    private readonly config: Configuration,
     private readonly notifier: Notifier,
-    private readonly encrypter: Encrypter
+    private readonly accessEncrypter: Encrypter,
+    private readonly refreshEncrypter: Encrypter
   ) { }
 
   async execute (dto: ActiveAccountDTO): Promise<AccountAuthenticationDTO> {
@@ -18,8 +18,8 @@ export class ActiveAccount {
     if (exists.activationCode !== dto.activationCode) { throw new AccountError(['Invalid Code'], 400) }
     const account = Account.build(exists)
     const response = await this.accountRepository.save(account)
-    const accessToken = this.encrypter.encrypt({ id: response.id }, this.config.accessTokenSecret)
-    const refreshToken = this.encrypter.encrypt({ id: response.id }, this.config.refreshTokenSecret)
+    const accessToken = this.accessEncrypter.encrypt({ id: response.id })
+    const refreshToken = this.refreshEncrypter.encrypt({ id: response.id })
     await this.notifier.notify(account, {})
     return { account: response, accessToken, refreshToken }
   }

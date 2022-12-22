@@ -1,6 +1,6 @@
 import { Account, AccountError } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Configuration, Encrypter, Notifier } from '@/use-cases/common/contracts/packages'
+import { Encrypter, Notifier } from '@/use-cases/common/contracts/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
 import { ActiveAccount } from '@/use-cases/active-account/active-account.usecase'
@@ -11,7 +11,6 @@ describe('ActiveAccount', () => {
   let accountRepo: MockProxy<SaveAccountRepository & FindByEmailAccountRepository >
   let encrypter: MockProxy<Encrypter>
   let notifier: MockProxy<Notifier>
-  let configuration: MockProxy<Configuration>
 
   const accountPropsDTO: ActiveAccountDTO = {
     email: 'any_email@mail.com',
@@ -33,13 +32,12 @@ describe('ActiveAccount', () => {
     accountRepo = mock()
     encrypter = mock()
     notifier = mock()
-    configuration = mock()
   })
 
   beforeEach(() => {
     accountRepo.save.mockResolvedValue(accountProps)
     accountRepo.findByEmail.mockResolvedValue(accountProps)
-    sut = new ActiveAccount(accountRepo, configuration, notifier, encrypter)
+    sut = new ActiveAccount(accountRepo, notifier, encrypter, encrypter)
   })
 
   it('should call FindByEmailRepo with correct values', async () => {
@@ -68,8 +66,8 @@ describe('ActiveAccount', () => {
 
   it('should call Encrypter with correct values', async () => {
     await sut.execute(accountPropsDTO)
-    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' }, configuration.accessTokenSecret)
-    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' }, configuration.refreshTokenSecret)
+    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' })
+    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' })
     expect(encrypter.encrypt).toHaveBeenCalledTimes(2)
   })
 

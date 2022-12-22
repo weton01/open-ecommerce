@@ -42,7 +42,7 @@ describe('AuthAccount', () => {
   beforeEach(() => {
     comparator.compare.mockResolvedValue(true)
     accountRepo.findByEmail.mockResolvedValue(accountProps)
-    sut = new AuthAccount(accountRepo, configuration, encrypter, comparator)
+    sut = new AuthAccount(accountRepo, encrypter, encrypter, comparator)
   })
 
   it('should call findUserByEmail with correct values', async () => {
@@ -78,8 +78,8 @@ describe('AuthAccount', () => {
 
   it('should call Encrypter with correct values', async () => {
     await sut.execute(accountPropsDTO)
-    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' }, configuration.accessTokenSecret)
-    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' }, configuration.refreshTokenSecret)
+    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' })
+    expect(encrypter.encrypt).toHaveBeenCalledWith({ id: 'any_id' })
     expect(encrypter.encrypt).toHaveBeenCalledTimes(2)
   })
 })
