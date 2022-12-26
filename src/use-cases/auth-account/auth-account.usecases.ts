@@ -1,7 +1,7 @@
 import { AccountError } from '@/entities/account'
 import { AccountAuthenticationDTO } from '@/use-cases/active-account/active-account.dtos'
-import { Comparator, Encrypter } from '@/use-cases/common/contracts/packages'
-import { FindByEmailAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { Comparator, Encrypter } from '@/use-cases/common/packages'
+import { FindByEmailAccountRepository } from '@/use-cases/common/repositories'
 import { AuthAccountDTO } from './auth-account.dtos'
 
 export class AuthAccount {

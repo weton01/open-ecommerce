@@ -1,5 +1,5 @@
-import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
-import { Hasher } from '@/use-cases/common/contracts/packages'
+import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
+import { Hasher } from '@/use-cases/common/packages'
 import { RecoverPasswordCbDTO } from './recover-password-cb.dtos'
 import { Account, AccountError } from '@/entities/account'
 

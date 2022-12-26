@@ -1,6 +1,16 @@
 import { Entity, EntityError } from '@/entities/common/entity'
+import { Image } from './image'
 
 export interface AccountProps {
+  id?: string
+  name: string
+  email: string
+  password?: string
+  image: Image
+  active: boolean
+}
+
+interface BuildAccountProps {
   id?: string
   name: string
   email: string
@@ -35,6 +45,10 @@ export class Account extends Entity<AccountProps> {
   }
 
   get image (): string {
+    return this.props.image.address
+  }
+
+  get getImage (): Image {
     return this.props.image
   }
 
@@ -48,11 +62,12 @@ export class Account extends Entity<AccountProps> {
     }
   }
 
-  static build (props: AccountProps): Account {
+  static build (props: BuildAccountProps): Account {
     const errors: string[] = []
     props.email = props.email.toLowerCase()
+    const image = Image.build({ url: props.image })
     if (!/^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(props.email)) { errors.push('Invalid e-mail') }
     if (errors.length > 0) { throw new AccountError(errors) }
-    return new Account({ id: props.id, name: props.name, email: props.email, password: props.password, image: props.image, active: props.active })
+    return new Account({ id: props.id, name: props.name, email: props.email, password: props.password, image, active: props.active })
   }
 }

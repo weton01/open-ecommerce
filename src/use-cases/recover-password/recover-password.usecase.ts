@@ -1,6 +1,6 @@
 import { Account, AccountError } from '@/entities/account'
-import { Encrypter, Notifier } from '@/use-cases/common/contracts/packages'
-import { FindByEmailAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { Encrypter, Notifier } from '@/use-cases/common/packages'
+import { FindByEmailAccountRepository } from '@/use-cases/common/repositories'
 import { RecoverPasswordDTO } from './recover-password.dtos'
 
 export class RecoverPassword {

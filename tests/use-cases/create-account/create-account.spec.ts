@@ -1,9 +1,10 @@
 import { Account, AccountError } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Notifier, Hasher, Configuration } from '@/use-cases/common/contracts/packages'
+import { Notifier, Hasher, Configuration } from '@/use-cases/common/packages'
 import { CreateAccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { CreateAccount } from '@/use-cases/create-account/create-account.usecase'
-import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
+import { Image } from '@/entities/image'
 
 describe('CreateAccount', () => {
   let sut: CreateAccount
@@ -29,12 +30,12 @@ describe('CreateAccount', () => {
       updatedAt: 'any_date',
       activationCode: '00000',
       active: false,
-      image: ''
+      image: 'https://any_image.com'
     })
     hasher = mock()
     notifier = mock()
     configuration = mock()
-    configuration.defaultProfileImage = 'any_value'
+    configuration.defaultProfileImage = 'https://any_image.com'
   })
 
   beforeEach(() => {
@@ -56,7 +57,7 @@ describe('CreateAccount', () => {
       updatedAt: 'any_date',
       activationCode: '00000',
       active: false,
-      image: ''
+      image: 'https://any_image.com'
     })
 
     const promise = sut.execute(accountProps)
@@ -74,12 +75,12 @@ describe('CreateAccount', () => {
     hasher.hash.mockResolvedValue('any_hash')
 
     await sut.execute(accountProps)
-
+    const image = Image.build({ url: 'https://any_image.com' })
     const account = new Account({
       email: 'any_email@mail.com',
       name: 'any_name',
       password: 'any_hash',
-      image: 'any_value',
+      image,
       active: false
     })
 
@@ -100,11 +101,11 @@ describe('CreateAccount', () => {
 
     await sut.execute(accountProps)
 
-    const account = new Account({
+    const account = Account.build({
       email: 'any_email@mail.com',
       name: 'any_name',
       password: 'any_hash',
-      image: 'any_value',
+      image: 'https://any_image.com',
       active: false
     })
 

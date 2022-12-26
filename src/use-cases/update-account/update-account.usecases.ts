@@ -1,6 +1,6 @@
 import { Account, AccountError } from '@/entities/account'
-import { Hasher } from '../common/contracts/packages'
-import { FindByIdAccountRepository, SaveAccountRepository } from '../common/contracts/repositories'
+import { Hasher } from '../common/packages'
+import { FindByIdAccountRepository, SaveAccountRepository } from '../common/repositories'
 import { AccountDTO } from '../create-account/create-account.dtos'
 import { UpdateAccountDTO } from './update-account.dtos'
 

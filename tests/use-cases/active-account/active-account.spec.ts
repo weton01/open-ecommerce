@@ -1,8 +1,8 @@
 import { Account, AccountError } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Encrypter, Notifier } from '@/use-cases/common/contracts/packages'
+import { Encrypter, Notifier } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
-import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { ActiveAccount } from '@/use-cases/active-account/active-account.usecase'
 import { ActiveAccountDTO } from '@/use-cases/active-account/active-account.dtos'
 
@@ -21,7 +21,7 @@ describe('ActiveAccount', () => {
     id: 'any_id',
     email: 'any_email@mail.com',
     name: 'any_name',
-    image: 'any_value',
+    image: 'https://any_image.com',
     active: false,
     activationCode: '00000',
     createdAt: 'any_date',
@@ -74,12 +74,12 @@ describe('ActiveAccount', () => {
   it('should call SaveAccountRepo with correct values', async () => {
     await sut.execute(accountPropsDTO)
 
-    const account = new Account({
+    const account = Account.build({
       id: 'any_id',
       email: 'any_email@mail.com',
       name: 'any_name',
       password: undefined,
-      image: 'any_value',
+      image: 'https://any_image.com',
       active: false
     })
 
@@ -90,12 +90,12 @@ describe('ActiveAccount', () => {
   it('should call Notifier with correct values', async () => {
     await sut.execute(accountPropsDTO)
 
-    const account = new Account({
+    const account = Account.build({
       id: 'any_id',
       email: 'any_email@mail.com',
       name: 'any_name',
       password: undefined,
-      image: 'any_value',
+      image: 'https://any_image.com',
       active: false
     })
 

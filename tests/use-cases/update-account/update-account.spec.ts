@@ -1,8 +1,8 @@
 import { Account, AccountError } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Hasher } from '@/use-cases/common/contracts/packages'
+import { Hasher } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
-import { FindByIdAccountRepository, SaveAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { FindByIdAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { UpdateAccountDTO } from '@/use-cases/update-account/update-account.dtos'
 import { UpdateAccount } from '@/use-cases/update-account/update-account.usecases'
 
@@ -21,7 +21,7 @@ describe('UpdateAccount', () => {
     id: 'any_id',
     email: 'any_email@mail.com',
     name: 'any_name',
-    image: 'any_value',
+    image: 'https://any_image.com',
     active: false,
     activationCode: '00000',
     createdAt: 'any_date',
@@ -59,11 +59,11 @@ describe('UpdateAccount', () => {
   })
 
   it('should rethrow if SaveAccount throws', async () => {
-    accountRepo.save.mockRejectedValueOnce(new Error('save_error'))
+    accountRepo.save.mockRejectedValueOnce(new Error('Failed while manipulating Image entity'))
 
     const promise = sut.execute(accountProps)
 
-    await expect(promise).rejects.toThrow(new Error('save_error'))
+    await expect(promise).rejects.toThrow(new Error('Failed while manipulating Image entity'))
   })
 
   it('should call SaveAccountRepository with correct values', async () => {
@@ -71,11 +71,11 @@ describe('UpdateAccount', () => {
 
     await sut.execute(accountProps)
 
-    const account = new Account({
+    const account = Account.build({
       email: 'any_email@mail.com',
       name: 'any_name',
       password: 'any_hash',
-      image: 'any_value',
+      image: 'https://any_image.com',
       active: false,
       id: 'any_id'
     })

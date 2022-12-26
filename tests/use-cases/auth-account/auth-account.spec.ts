@@ -1,6 +1,6 @@
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Configuration, Encrypter, Comparator } from '@/use-cases/common/contracts/packages'
-import { FindByEmailAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { Configuration, Encrypter, Comparator } from '@/use-cases/common/packages'
+import { FindByEmailAccountRepository } from '@/use-cases/common/repositories'
 import { AccountError } from '@/entities/account'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { AuthAccountDTO } from '@/use-cases/auth-account/auth-account.dtos'
@@ -22,13 +22,12 @@ describe('AuthAccount', () => {
     id: 'any_id',
     email: 'any_email@mail.com',
     name: 'any_name',
-    image: 'any_value',
+    image: 'https://any_image.com',
     active: true,
     activationCode: '00000',
     createdAt: 'any_date',
     updatedAt: 'any_date',
     password: 'any_password'
-
   }
 
   beforeAll(() => {
@@ -36,7 +35,7 @@ describe('AuthAccount', () => {
     comparator = mock()
     encrypter = mock()
     configuration = mock()
-    configuration.defaultProfileImage = 'any_value'
+    configuration.defaultProfileImage = 'https://any_image.com'
   })
 
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { mock, MockProxy } from 'jest-mock-extended'
-import { Encrypter, Notifier } from '@/use-cases/common/contracts/packages'
+import { Encrypter, Notifier } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
-import { FindByEmailAccountRepository } from '@/use-cases/common/contracts/repositories'
+import { FindByEmailAccountRepository } from '@/use-cases/common/repositories'
 import { Account, AccountError } from '@/entities/account'
 import { RecoverPassword } from '@/use-cases/recover-password/recover-password.usecase'
 import { RecoverPasswordDTO } from '@/use-cases/recover-password/recover-password.dtos'
@@ -20,7 +20,7 @@ describe('RecoverPassword', () => {
     id: 'any_id',
     email: 'any_email@mail.com',
     name: 'any_name',
-    image: 'any_value',
+    image: 'https://any_image.com',
     active: false,
     activationCode: '00000',
     createdAt: 'any_date',
@@ -66,12 +66,12 @@ describe('RecoverPassword', () => {
 
     await sut.execute(accountPropsDTO)
 
-    const account = new Account({
+    const account = Account.build({
       id: 'any_id',
       email: 'any_email@mail.com',
       name: 'any_name',
       password: undefined,
-      image: 'any_value',
+      image: 'https://any_image.com',
       active: false
     })
 

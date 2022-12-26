@@ -1,6 +1,6 @@
 import { Account, AccountError } from '@/entities/account'
-import { Encrypter, Notifier } from '../common/contracts/packages'
-import { FindByEmailAccountRepository, SaveAccountRepository } from '../common/contracts/repositories'
+import { Encrypter, Notifier } from '../common/packages'
+import { FindByEmailAccountRepository, SaveAccountRepository } from '../common/repositories'
 import { AccountAuthenticationDTO, ActiveAccountDTO } from './active-account.dtos'
 
 export class ActiveAccount {
