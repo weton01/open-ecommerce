@@ -1,7 +1,7 @@
 import { Comparator, Hasher } from '@/use-cases/common/packages'
 import bcrypt from 'bcryptjs'
 
-export class BcryptAdapter implements Hasher, Comparator {
+export class BcryptHandler implements Hasher, Comparator {
   constructor (private readonly salt: number) {}
 
   async hash (value: string): Promise<string> {

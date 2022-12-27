@@ -1,4 +1,4 @@
-import { BcryptAdapter } from '@/infrastructure/plugins'
+import { BcryptHandler } from '@/infrastructure/plugins'
 import bcryptjs from 'bcryptjs'
 import { mock, MockProxy } from 'jest-mock-extended'
 
@@ -13,7 +13,7 @@ jest.mock('bcryptjs', () => ({
 }))
 
 describe('BcryptAdapter', () => {
-  let sut: BcryptAdapter
+  let sut: BcryptHandler
   let fakeBcrypt: MockProxy<typeof bcryptjs>
   let key: string
   let hash: string
@@ -29,7 +29,7 @@ describe('BcryptAdapter', () => {
 
     beforeEach(() => {
       fakeBcrypt.hash.mockImplementationOnce(() => hash)
-      sut = new BcryptAdapter(salts)
+      sut = new BcryptHandler(salts)
     })
 
     it('should call jwt sign with correct values', async () => {
@@ -61,7 +61,7 @@ describe('BcryptAdapter', () => {
 
     beforeEach(() => {
       fakeBcrypt.hash.mockImplementationOnce(() => hash)
-      sut = new BcryptAdapter(salts)
+      sut = new BcryptHandler(salts)
     })
 
     it('should call jwt sign with correct values', async () => {
