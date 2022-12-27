@@ -2,9 +2,10 @@ import { mock, MockProxy } from 'jest-mock-extended'
 import { Hasher } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { RecoverPasswordCallback } from '@/use-cases/recover-password-cb/recover-password-cb.usecase'
 import { RecoverPasswordCbDTO } from '@/use-cases/recover-password-cb/recover-password-cb.dtos'
+import { NotFoundError } from '@/use-cases/common/errors'
 
 describe('RecoverPasswordCallback', () => {
   let sut: RecoverPasswordCallback
@@ -53,7 +54,7 @@ describe('RecoverPasswordCallback', () => {
   it('should call FindByEmailRepo with invalid e-mail', async () => {
     accountRepo.findByEmail.mockResolvedValue(undefined)
     const promise = sut.execute(accountPropsDTO)
-    await expect(promise).rejects.toThrow(new AccountError([]))
+    await expect(promise).rejects.toThrow(new NotFoundError('Account not found'))
   })
 
   it('should rethrow if FindByEmail throws', async () => {

@@ -1,10 +1,11 @@
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
 import { Configuration, UploadFile, DeleteFile, UniqueIdGenerator } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { FindByIdAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { UpdateAccountImage } from '@/use-cases//update-account-image/update-account-image.usecase'
 import { UpdateAccountImageDTO } from './update-account-image.dtos'
+import { NotFoundError } from '@/use-cases/common/errors'
 
 describe('UpdateAccountImage', () => {
   let sut: UpdateAccountImage
@@ -59,7 +60,7 @@ describe('UpdateAccountImage', () => {
   it('should throw a AccountError if id not is registered on database', async () => {
     accountRepo.findById.mockResolvedValue(undefined as any)
     const promise = sut.execute(accountProps)
-    await expect(promise).rejects.toThrow(new AccountError([]))
+    await expect(promise).rejects.toThrow(new NotFoundError('Account not found'))
   })
 
   it('should call Filestorage Delete with correct values', async () => {

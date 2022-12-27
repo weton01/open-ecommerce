@@ -1,10 +1,11 @@
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
 import { Hasher } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { FindByIdAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { UpdateAccountDTO } from '@/use-cases/update-account/update-account.dtos'
 import { UpdateAccount } from '@/use-cases/update-account/update-account.usecases'
+import { NotFoundError } from '@/use-cases/common/errors'
 
 describe('UpdateAccount', () => {
   let sut: UpdateAccount
@@ -49,7 +50,7 @@ describe('UpdateAccount', () => {
   it('should throw a AccountError if id not is registered on database', async () => {
     accountRepo.findById.mockResolvedValue(undefined as any)
     const promise = sut.execute(accountProps)
-    await expect(promise).rejects.toThrow(new AccountError([]))
+    await expect(promise).rejects.toThrow(new NotFoundError('Account not found'))
   })
 
   it('should call Hasher with correct values', async () => {

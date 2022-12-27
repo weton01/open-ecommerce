@@ -5,6 +5,7 @@ import { AuthFacebookAPI, AuthGoogleAPI } from '@/use-cases/common/apis'
 import { Encrypter } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { AuthSocialDTO } from './auth-social.dtos'
+import { BadRequestError } from '@/use-cases/common/errors'
 
 export class AuthSocial {
   constructor (
@@ -27,7 +28,7 @@ export class AuthSocial {
     let isValid: AccountDTO | undefined
     if (dto.type === 'facebook') { isValid = await this.facebook.authFacebook(dto.token) }
     if (dto.type === 'google') { isValid = await this.google.authGoogle(dto.token) }
-    if (isValid === undefined) { throw new Error('Invalid Token') }
+    if (isValid === undefined) { throw new BadRequestError('Invalid Token') }
     const exists = await this.accRepository.findByEmail(isValid.email)
     if (exists !== undefined) { return this.accountBuilder(exists) }
     return this.accountBuilder(isValid)

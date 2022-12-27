@@ -1,10 +1,11 @@
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
 import { Encrypter, Notifier } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { ActiveAccount } from '@/use-cases/active-account/active-account.usecase'
 import { ActiveAccountDTO } from '@/use-cases/active-account/active-account.dtos'
+import { BadRequestError, ConflictError, NotFoundError } from '@/use-cases/common/errors'
 
 describe('ActiveAccount', () => {
   let sut: ActiveAccount
@@ -49,19 +50,19 @@ describe('ActiveAccount', () => {
   it('should throws an AccountError if account not exists', async () => {
     accountRepo.findByEmail.mockResolvedValue(null as any)
     const promise = sut.execute(accountPropsDTO)
-    await expect(promise).rejects.toThrow(new AccountError(['Account not found'], 404))
+    await expect(promise).rejects.toThrow(new NotFoundError('Account not found'))
   })
 
   it('should throws an AccountError if account already is active', async () => {
     accountRepo.findByEmail.mockResolvedValue({ ...accountProps, active: true })
     const promise = sut.execute(accountPropsDTO)
-    await expect(promise).rejects.toThrow(new AccountError(['Account already active'], 400))
+    await expect(promise).rejects.toThrow(new ConflictError('Account already active'))
   })
 
   it('should throws an AccountError if activationCode is false', async () => {
     accountRepo.findByEmail.mockResolvedValue({ ...accountProps, activationCode: '11111' })
     const promise = sut.execute(accountPropsDTO)
-    await expect(promise).rejects.toThrow(new AccountError(['Invalid activationCode'], 400))
+    await expect(promise).rejects.toThrow(new BadRequestError('Invalid Code'))
   })
 
   it('should call Encrypter with correct values', async () => {

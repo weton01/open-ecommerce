@@ -2,9 +2,10 @@ import { mock, MockProxy } from 'jest-mock-extended'
 import { Encrypter, Notifier } from '@/use-cases/common/packages'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { FindByEmailAccountRepository } from '@/use-cases/common/repositories'
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { RecoverPassword } from '@/use-cases/recover-password/recover-password.usecase'
 import { RecoverPasswordDTO } from '@/use-cases/recover-password/recover-password.dtos'
+import { NotFoundError } from '@/use-cases/common/errors'
 
 describe('RecoverPassword', () => {
   let sut: RecoverPassword
@@ -52,7 +53,7 @@ describe('RecoverPassword', () => {
   it('should call FindByEmailRepo with invalid e-mail', async () => {
     accountRepo.findByEmail.mockResolvedValue(undefined)
     const promise = sut.execute(accountPropsDTO)
-    await expect(promise).rejects.toThrow(new AccountError([]))
+    await expect(promise).rejects.toThrow(new NotFoundError('Account not found'))
   })
 
   it('should call Encrypter with correct values', async () => {

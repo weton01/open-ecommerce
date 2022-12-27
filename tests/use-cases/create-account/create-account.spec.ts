@@ -1,10 +1,11 @@
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { mock, MockProxy } from 'jest-mock-extended'
 import { Notifier, Hasher, Configuration } from '@/use-cases/common/packages'
 import { CreateAccountDTO } from '@/use-cases/create-account/create-account.dtos'
 import { CreateAccount } from '@/use-cases/create-account/create-account.usecase'
 import { FindByEmailAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { Image } from '@/entities/image'
+import { ConflictError } from '@/use-cases/common/errors'
 
 describe('CreateAccount', () => {
   let sut: CreateAccount
@@ -62,7 +63,7 @@ describe('CreateAccount', () => {
 
     const promise = sut.execute(accountProps)
 
-    await expect(promise).rejects.toThrow(new AccountError([]))
+    await expect(promise).rejects.toThrow(new ConflictError('E-mail already exists'))
   })
 
   it('should call Hasher with correct values', async () => {

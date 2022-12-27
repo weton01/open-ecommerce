@@ -1,7 +1,8 @@
-import { Account, AccountError } from '@/entities/account'
+import { Account } from '@/entities/account'
 import { Configuration, DeleteFile, UniqueIdGenerator, UploadFile } from '@/use-cases/common/packages'
 import { FindByIdAccountRepository, SaveAccountRepository } from '@/use-cases/common/repositories'
 import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
+import { NotFoundError } from '@/use-cases/common/errors'
 import { FileType, UpdateAccountImageDTO } from './update-account-image.dtos'
 
 export class UpdateAccountImage {
@@ -36,7 +37,7 @@ export class UpdateAccountImage {
 
   async execute (dto: UpdateAccountImageDTO): Promise<AccountDTO> {
     const exists = await this.accRepository.findById(dto.id)
-    if (exists == null) { throw new AccountError(['Account not found'], 404) }
+    if (exists == null) { throw new NotFoundError('Account not found') }
     const account = await this.choose(exists, dto.file)
     const response = await this.accRepository.save(account)
     return response
