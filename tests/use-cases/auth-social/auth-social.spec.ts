@@ -12,10 +12,10 @@ jest.mock('@/entities/account')
 describe('AuthSocial', () => {
   let sut: AuthSocial
   let accountRepo: MockProxy<SaveAccountRepository & FindByEmailAccountRepository>
-  let configuration: MockProxy<Configuration>
   let encrypter: MockProxy<Encrypter>
   let facebook: MockProxy<AuthFacebookAPI>
   let google: MockProxy<AuthGoogleAPI>
+  let config: MockProxy<Configuration>
 
   const accountPropsDTO: AuthSocialDTO = {
     token: 'any_token',
@@ -36,20 +36,21 @@ describe('AuthSocial', () => {
 
   beforeAll(() => {
     accountRepo = mock()
+    config = mock()
     encrypter = mock()
-    configuration = mock()
     facebook = mock()
     google = mock()
-    configuration.defaultProfileImage = 'https://any_image.com'
   })
 
   beforeEach(() => {
-    facebook.authFacebook.mockResolvedValue(accountProps)
-    google.authGoogle.mockResolvedValue(accountProps)
+    config.defaultProfileImage = 'https://any_image.com'
+
+    facebook.authFacebook.mockResolvedValue({ ...accountProps, id: '' })
+    google.authGoogle.mockResolvedValue({ ...accountProps, id: '' })
     accountRepo.save.mockResolvedValue(accountProps)
     accountRepo.findByEmail.mockResolvedValue(accountProps)
 
-    sut = new AuthSocial(accountRepo, facebook, google, encrypter, encrypter)
+    sut = new AuthSocial(accountRepo, facebook, google, encrypter, encrypter, config)
   })
 
   it('should call AuthFacebook with correct values', async () => {
@@ -87,9 +88,9 @@ describe('AuthSocial', () => {
 
   it('should call AccountBuild  with correct values if account already exists', async () => {
     Account.build = jest.fn().mockImplementation((props) => {})
-    accountRepo.findByEmail.mockReturnValue({ ...accountProps, id: 'any_id_1' } as any)
+    accountRepo.findByEmail.mockResolvedValue({ ...accountProps, id: 'any_id_1', image: 'https://any_image.com' })
     await sut.execute(accountPropsDTO)
-    expect(Account.build).toHaveBeenCalledWith({ ...accountProps, id: 'any_id_1' })
+    expect(Account.build).toHaveBeenCalledWith({ ...accountProps, id: 'any_id_1', image: 'https://any_image.com' })
     expect(accountRepo.findByEmail).toHaveBeenCalledTimes(1)
   })
 

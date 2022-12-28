@@ -1,5 +1,5 @@
-import { AccountDTO } from '@/use-cases/create-account/create-account.dtos'
+import { AuthSocialOutputDTO } from './auth-facebook'
 
 export interface AuthGoogleAPI {
-  authGoogle: (accessToken: string) => Promise<AccountDTO | undefined>
+  authGoogle: (accessToken: string) => Promise<AuthSocialOutputDTO | undefined>
 }
