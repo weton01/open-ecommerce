@@ -8,6 +8,7 @@ export interface AccountProps {
   password?: string
   image: Image
   active: boolean
+  activationCode: string
 }
 
 interface BuildAccountProps {
@@ -17,6 +18,7 @@ interface BuildAccountProps {
   password?: string
   image: string
   active: boolean
+  activationCode?: string
 }
 
 export class AccountError extends EntityError {
@@ -56,6 +58,10 @@ export class Account extends Entity<AccountProps> {
     return this.props.active
   }
 
+  get activationCode (): string {
+    return this.props.activationCode
+  }
+
   changePassword (pswd?: string): void {
     if (pswd !== null && pswd !== undefined && pswd !== '') {
       this.props.password = pswd
@@ -68,6 +74,14 @@ export class Account extends Entity<AccountProps> {
     const image = Image.build({ url: props.image })
     if (!/^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(props.email)) { errors.push('Invalid e-mail') }
     if (errors.length > 0) { throw new AccountError(errors) }
-    return new Account({ id: props.id, name: props.name, email: props.email, password: props.password, image, active: props.active })
+    return new Account({
+      id: props.id,
+      activationCode: '',
+      name: props.name,
+      email: props.email,
+      password: props.password,
+      image,
+      active: props.active
+    })
   }
 }

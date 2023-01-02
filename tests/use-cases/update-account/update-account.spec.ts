@@ -78,7 +78,8 @@ describe('UpdateAccount', () => {
       password: 'any_hash',
       image: 'https://any_image.com',
       active: false,
-      id: 'any_id'
+      id: 'any_id',
+      activationCode: ''
     })
 
     expect(accountRepo.save).toHaveBeenCalledWith(account)

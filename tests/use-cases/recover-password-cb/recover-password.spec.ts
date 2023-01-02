@@ -78,7 +78,8 @@ describe('RecoverPasswordCallback', () => {
       name: 'any_name',
       password: undefined,
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     })
 
     expect(accountRepo.save).toHaveBeenCalledWith(account)

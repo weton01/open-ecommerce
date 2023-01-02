@@ -73,7 +73,8 @@ describe('RecoverPassword', () => {
       name: 'any_name',
       password: undefined,
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     })
 
     expect(notifier.notify).toHaveBeenCalledWith(account, { accessToken: 'any_token' })

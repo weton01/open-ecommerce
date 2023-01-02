@@ -1,4 +1,5 @@
 export interface CreateAccountDTO {
+  activationCode: string
   name: string
   email: string
   password: string
@@ -6,7 +7,7 @@ export interface CreateAccountDTO {
   image?: string
 }
 
-export interface AccountDTO{
+export interface AccountDTO {
   id: string
   name: string
   email: string

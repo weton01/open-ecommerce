@@ -16,7 +16,7 @@ export class AuthSocial {
     private readonly config: Configuration
   ) {}
 
-  private async accountBuilder (acc: AuthSocialOutputDTO & {id: string, image: string}): Promise<AccountAuthenticationDTO> {
+  private async accountBuilder (acc: AuthSocialOutputDTO & { id: string, image: string }): Promise<AccountAuthenticationDTO> {
     const account = Account.build(acc)
     const response = await this.accRepository.save(account)
     const accessToken = this.accessEncrypter.encrypt({ id: response.id })
@@ -30,7 +30,7 @@ export class AuthSocial {
     if (dto.type === 'google') { isValid = await this.google.authGoogle(dto.token) }
     if (isValid === undefined) { throw new BadRequestError('Invalid Token') }
     const exists = await this.accRepository.findByEmail(isValid.email)
-    if (exists !== undefined) { return this.accountBuilder(exists) }
-    return this.accountBuilder({ ...isValid, image: this.config.defaultProfileImage })
+    if (exists !== undefined) { return await this.accountBuilder(exists) }
+    return await this.accountBuilder({ ...isValid, image: this.config.defaultProfileImage })
   }
 }

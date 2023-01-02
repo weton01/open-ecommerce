@@ -17,8 +17,8 @@ describe('CreateAccount', () => {
   const accountProps: CreateAccountDTO = {
     name: 'any_name',
     email: 'any_email@mail.com',
-    password: 'any_password'
-
+    password: 'any_password',
+    activationCode: ''
   }
 
   beforeAll(() => {
@@ -82,7 +82,8 @@ describe('CreateAccount', () => {
       name: 'any_name',
       password: 'any_hash',
       image,
-      active: false
+      active: false,
+      activationCode: ''
     })
 
     expect(notifier.notify).toHaveBeenCalledWith(account, {})
@@ -107,7 +108,8 @@ describe('CreateAccount', () => {
       name: 'any_name',
       password: 'any_hash',
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     })
 
     expect(accountRepo.save).toHaveBeenCalledWith(account)

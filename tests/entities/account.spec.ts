@@ -8,8 +8,10 @@ describe('Account', () => {
       email: 'valid_mail@mail.com',
       password: 'any_password',
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     }
+
     const account = Account.build(accountProps)
 
     expect(account.id).toBe(accountProps.id)
@@ -18,6 +20,7 @@ describe('Account', () => {
     expect(account.password).toBe(accountProps.password)
     expect(account.image).toBe(accountProps.image)
     expect(account.active).toBe(accountProps.active)
+    expect(account.activationCode).toBe(accountProps.activationCode)
   })
 
   it('should fail when give an invalid e-mail', () => {
@@ -27,7 +30,8 @@ describe('Account', () => {
       email: 'invalid_mail@mail..com',
       password: 'any_password',
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     }
 
     expect(() => { Account.build(accountProps) }).toThrow(new AccountError(['Invalid e-mail']))

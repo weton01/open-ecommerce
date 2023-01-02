@@ -81,7 +81,8 @@ describe('ActiveAccount', () => {
       name: 'any_name',
       password: undefined,
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     })
 
     expect(accountRepo.save).toHaveBeenCalledWith(account)
@@ -97,7 +98,8 @@ describe('ActiveAccount', () => {
       name: 'any_name',
       password: undefined,
       image: 'https://any_image.com',
-      active: false
+      active: false,
+      activationCode: ''
     })
 
     expect(notifier.notify).toHaveBeenCalledWith(account, {})
